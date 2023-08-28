@@ -1,16 +1,11 @@
 const Tweet = require("../models/tweet");
 class TweetRepository {
+  constructor(){
+    
+  }
   async create(data) {
     try {
       const tweet = await Tweet.create(data);
-      return tweet;
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  async update(id, data) {
-    try {
-      const tweet = await Tweet.findByIdAndUpdate(id,data,{new:true});
       return tweet;
     } catch (err) {
       console.log(err);

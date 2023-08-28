@@ -1,25 +1,17 @@
-const TweetRepository  = require("../repository/tweet-Repo");
-const hashtag=require("../models/hashtags");
+const {TweetRepository,HashTagRepo}  = require("../repository/index");
 class TweetService {
   constructor() {
-    this.repo = new TweetRepository();
+    this.tweetRepo = new TweetRepository();
+    this.hashtagRepo=new HashTagRepo();
   }
   async create(data) {
     const content = data.content;
-    const tweet = await this.repo.create(data);
+    const tweet = await this.tweetRepo.create(data);
     const hashtagPattern = /#[a-za-z0-9_]+/g;
-    const tags = content.match(hashtagPattern);
-    
-    if (tags) {
-      const cleanedTags = tags.map((tag) => tag.substring(1));
-      for (let i = 0; i < cleanedTags.length; i++) {
-        const created=await hashtag.create(
-        {
-            content:cleanedTags[i]
-        });
-        tweet.hashtags.push(created._id);
-      }
-    }
+    let tags = content.match(hashtagPattern);
+    const alreadyPresentTags=this.hashtagRepo.findByContent(tags).map((tag)=>tag.content)
+    const newTags=tags.filter((tag) =>!alreadyPresentTags.includes(tag) )
+    this.hashtagRepo.bulkCreate(newTags);
     await tweet.save();
     return tweet;
   }
