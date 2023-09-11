@@ -2,9 +2,10 @@ const express = require("express");
 const createTweet = require("../../controllers/tweet-Controller");
 const toggleLike = require("../../controllers/like-Controller");
 const createComment = require("../../controllers/commentController");
+const signup = require("../../controllers/userController");
 const v1Routes = express.Router();
 v1Routes.post("/tweets", createTweet);
 v1Routes.post("/likes/toggleLike", toggleLike);
 v1Routes.post("/comments/create", createComment);
-
+v1Routes.post("/signup", signup);
 module.exports = v1Routes;
