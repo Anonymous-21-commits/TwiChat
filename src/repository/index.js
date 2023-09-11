@@ -1,3 +1,9 @@
-const TweetRepository = require("./tweet-Repo");
-const HashTagRepo = require("./hashtag-Repo");
-module.exports = { TweetRepository, HashTagRepo };
+const TweetRepo = require("./TweetRepo");
+const HashTagRepo = require("./HashTagRepo");
+const LikeRepo=require('./LikeRepo');
+const CommentRepo=require('./CommentRepo');
+module.exports = {
+  TweetRepo,
+  HashTagRepo,
+  LikeRepo,CommentRepo
+};
